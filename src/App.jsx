@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import Wizard from './components/Wizard';
 import { useEffect, useState } from 'react';
 import hackathonImage from './assets/hackathon-2025.png';
+import theTeamImage from './assets/the-team.png';
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -28,11 +29,25 @@ function App() {
         sx={{
           backgroundColor: '#0D296A',
         }}>
-        <img
-          src={hackathonImage}
-          alt='Hackathon 2025'
-          style={{ maxWidth: 500, width: 200, height: 'auto', marginBottom: 16 }}
-        />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <img
+            src={hackathonImage}
+            alt='Hackathon 2025'
+            style={{ maxWidth: 500, width: 200, height: 'auto' }}
+          />
+          <img
+            src={theTeamImage}
+            alt='The Team'
+            style={{ maxWidth: 500, width: 380, height: 'auto' }}
+          />
+        </Box>
         <Typography variant='h6' color='white'>
           For Better & Optimal Experience, Please Use Mobile Device View
         </Typography>

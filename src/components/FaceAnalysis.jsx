@@ -13,6 +13,7 @@ import iconPori from '../assets/PORI.png';
 import iconKomedo from '../assets/KOMEDO.png';
 import iconJerawat from '../assets/JERAWAT.png';
 import iconFlex from '../assets/FLEK.png';
+import ReactConfetti from "react-confetti";
 
 const API_KEY = import.meta.env.VITE_FACEPP_API_KEY;
 const API_SECRET = import.meta.env.VITE_FACEPP_API_SECRET;
@@ -35,6 +36,7 @@ const FaceAnalysis = () => {
   //select skin condition
   const [selectedSkinCondition, setSelectedSkinCondition] = useState('Komedo');
   const [isError, setIsError] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -69,6 +71,7 @@ const FaceAnalysis = () => {
       setAnalysisResult(response.data);
       handleSkinType(response.data);
 
+      setIsFinished(true);
     } catch (error) {
       setIsError(true);
       console.error('API Error:', error);
@@ -158,6 +161,15 @@ const FaceAnalysis = () => {
       ) : (
         // Captured Image View
         <Box position='relative' width='100vw' height='100vh'>
+          {isFinished ? (
+            <ReactConfetti
+              width={window.innerWidth}
+              height={window.innerHeight}
+              recycle={false}
+              colors={['#EB395F', '#FF73A5', '#FEE9E7']}
+            />
+          ) : <></>}
+
           <img src={capturedImage} alt='Captured' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           {analysisResult ? (
         <>
