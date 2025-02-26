@@ -1,20 +1,20 @@
 /* eslint-disable no-unused-vars */
-import { useRef, useState, useEffect } from "react";
-import Webcam from "react-webcam";
-import axios from "axios";
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
-import ModalShare from "./ModalShare";
-import ModalSummary from "./ModalSummary";
-import ModalBestPick from "./BestPickModal";
+import { useRef, useState, useEffect } from 'react';
+import Webcam from 'react-webcam';
+import axios from 'axios';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
+import ModalShare from './ModalShare';
+import ModalSummary from './ModalSummary';
+import ModalBestPick from './BestPickModal';
 import { useNavigate } from 'react-router';
 import Header from './Header';
 import iconCamera from '../assets/icon-camera.png';
-import { SKIN_CONDITION_MAP, SKIN_TYPE_MAP } from "../constants/constant";
+import { SKIN_CONDITION_MAP, SKIN_TYPE_MAP } from '../constants/constant';
 import iconPori from '../assets/PORI.png';
 import iconKomedo from '../assets/KOMEDO.png';
 import iconJerawat from '../assets/JERAWAT.png';
 import iconFlex from '../assets/FLEK.png';
-import ReactConfetti from "react-confetti";
+import ReactConfetti from 'react-confetti';
 
 const API_KEY = import.meta.env.VITE_FACEPP_API_KEY;
 const API_SECRET = import.meta.env.VITE_FACEPP_API_SECRET;
@@ -40,8 +40,8 @@ const FaceAnalysis = () => {
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
   const [skinType, setSkinType] = useState(null);
 
@@ -55,7 +55,7 @@ const FaceAnalysis = () => {
     setAnalysisResult(null);
     setSkinType(null);
   };
-  
+
   const analyzeImage = async () => {
     setIsLoading(true);
     const blob = await fetch(capturedImage).then((res) => res.blob());
@@ -83,55 +83,67 @@ const FaceAnalysis = () => {
 
   const showSummary = () => {
     //
-    setShowModalSummary(true)
+    setShowModalSummary(true);
   };
 
   const shareImage = async () => {
-    setShowModalShare(true)
+    setShowModalShare(true);
     //
   };
-  
+
   const handleSkinType = (result) => {
-    const res = SKIN_TYPE_MAP.find(st => st.value == result.result.skin_type.skin_type)
+    const res = SKIN_TYPE_MAP.find((st) => st.value == result.result.skin_type.skin_type);
     setSkinType(res);
   };
 
   const handleSkinConditions = (result) => {
     const data = result.result;
     const tempSkinConditions = [];
-    for (const [key, value] of Object.entries(data)) {
-      if (['acne', 'blackhead', 'skin_spot'].includes(key)) {
-        if (value.value == 1) {
-          tempSkinConditions.push(key)
-        }
-      }
-      if (['pores_left_cheek', 'pores_forehead', 'pores_jaw', 'pores_right_cheek'].includes(key)) {
-        if (value.value == 1) {
-          tempSkinConditions.push('pores')
-        }
-      }
+
+    if (
+      hasNonZeroValue([
+        data.pores_jaw.value,
+        data.pores_forehead.value,
+        data.pores_left_cheek.value,
+        data.pores_right_cheek.value,
+      ])
+    ) {
+      tempSkinConditions.push('pores');
     }
+
+    if (hasNonZeroValue([data.blackhead.value, data.dark_circle.value])) {
+      tempSkinConditions.push('blackhead');
+    }
+
+    if (hasNonZeroValue([data.acne.value, data.skin_spot.value])) {
+      tempSkinConditions.push('acne');
+    }
+
+    if (hasNonZeroValue([data.glabella_wrinkle.value, data.mole.value])) {
+      tempSkinConditions.push('skin_spot');
+    }
+
     const uniqueSkinConditions = [...new Set(tempSkinConditions)];
-    const completeSkinConditions = uniqueSkinConditions.map(sc => SKIN_CONDITION_MAP.find(s => s.value == sc));
+    const completeSkinConditions = uniqueSkinConditions.map((sc) => SKIN_CONDITION_MAP.find((s) => s.value == sc));
     setSkinConditions(completeSkinConditions);
-  }
+  };
 
   const handleBack = () => {
     navigate('/wizard?step=2');
   };
 
   const hasNonZeroValue = (values) => {
-    return values.some(value => value > 0);
+    return values.some((value) => value > 0);
   };
 
   const renderMaskingIcon = (skinCondition) => (
     <Box
       sx={{
         position: 'absolute',
-        ...skinCondition.top && { top: skinCondition.top },
-        ...skinCondition.bottom && { bottom: skinCondition.bottom },
-        ...skinCondition.left && { left: skinCondition.left },
-        ...skinCondition.right && { right: skinCondition.right },
+        ...(skinCondition.top && { top: skinCondition.top }),
+        ...(skinCondition.bottom && { bottom: skinCondition.bottom }),
+        ...(skinCondition.left && { left: skinCondition.left }),
+        ...(skinCondition.right && { right: skinCondition.right }),
         transform: 'translate(-50%, -50%)',
       }}
     >
@@ -139,13 +151,13 @@ const FaceAnalysis = () => {
         src={skinCondition.img}
         alt={skinCondition.name}
         style={{ width: 100, height: 120, cursor: 'pointer' }}
-        onClick={()=> {
+        onClick={() => {
           setSelectedSkinCondition(skinCondition.name);
           setShowModalBestPick(true);
         }}
       />
     </Box>
-  )
+  );
 
   return (
     <Box
@@ -189,34 +201,32 @@ const FaceAnalysis = () => {
               recycle={false}
               colors={['#EB395F', '#FF73A5', '#FEE9E7']}
             />
-          ) : <></>}
+          ) : (
+            <></>
+          )}
 
           <img src={capturedImage} alt='Captured' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           {analysisResult ? (
-        <>
-          {hasNonZeroValue([
-            analysisResult.result.pores_jaw.value, 
-            analysisResult.result.pores_forehead.value, 
-            analysisResult.result.pores_left_cheek.value, 
-            analysisResult.result.pores_right_cheek.value
-          ]) && renderMaskingIcon({top: '25%', left: '30%', img: iconKomedo, name: 'Komedo'})}
-          
-          {hasNonZeroValue([
-            analysisResult.result.blackhead.value, 
-            analysisResult.result.dark_circle.value
-          ]) && renderMaskingIcon({top: '35%', right: '-10%', img: iconPori, name: 'Pori'})}
-          
-          {hasNonZeroValue([
-            analysisResult.result.acne.value, 
-            analysisResult.result.skin_spot.value
-          ]) && renderMaskingIcon({top: '35%', left: '25%', img: iconJerawat, name: 'Jerawat'})}
-          
-          {hasNonZeroValue([
-            analysisResult.result.glabella_wrinkle.value, 
-            analysisResult.result.mole.value
-          ]) && renderMaskingIcon({top: '25%', right: '0%', img: iconFlex, name: 'Flek'})}
-        </>
-      ) : <></>}
+            <>
+              {hasNonZeroValue([
+                analysisResult.result.pores_jaw.value,
+                analysisResult.result.pores_forehead.value,
+                analysisResult.result.pores_left_cheek.value,
+                analysisResult.result.pores_right_cheek.value,
+              ]) && renderMaskingIcon({ top: '25%', left: '30%', img: iconKomedo, name: 'Pori' })}
+
+              {hasNonZeroValue([analysisResult.result.blackhead.value, analysisResult.result.dark_circle.value]) &&
+                renderMaskingIcon({ top: '35%', right: '-10%', img: iconPori, name: 'Komedo' })}
+
+              {hasNonZeroValue([analysisResult.result.acne.value, analysisResult.result.skin_spot.value]) &&
+                renderMaskingIcon({ top: '35%', left: '25%', img: iconJerawat, name: 'Jerawat' })}
+
+              {hasNonZeroValue([analysisResult.result.glabella_wrinkle.value, analysisResult.result.mole.value]) &&
+                renderMaskingIcon({ top: '25%', right: '0%', img: iconFlex, name: 'Flek' })}
+            </>
+          ) : (
+            <></>
+          )}
 
           {isError && (
             <Box
@@ -280,7 +290,13 @@ const FaceAnalysis = () => {
                   textTransform: 'none',
                 }}
               >
-                {isLoading ? <CircularProgress size={24} color='inherit' /> : analysisResult ? 'Summary' : 'Retake Selfie'}
+                {isLoading ? (
+                  <CircularProgress size={24} color='inherit' />
+                ) : analysisResult ? (
+                  'Summary'
+                ) : (
+                  'Retake Selfie'
+                )}
               </Button>
               <Button
                 variant='contained'
@@ -317,18 +333,24 @@ const FaceAnalysis = () => {
         </Box>
       )} */}
 
-    {isShowModalShare && (
-        <ModalShare open={isShowModalShare} onClose={()=> setShowModalShare(false)} />
-      )}
+      {isShowModalShare && <ModalShare open={isShowModalShare} onClose={() => setShowModalShare(false)} />}
 
       {isShowModalSummary && (
-        <ModalSummary open={isShowModalSummary} onClose={()=> setShowModalSummary(false)} skinConditions={skinConditions} skinType={skinType} />
+        <ModalSummary
+          open={isShowModalSummary}
+          onClose={() => setShowModalSummary(false)}
+          skinConditions={skinConditions}
+          skinType={skinType}
+        />
       )}
 
-      {isShowModalBestPick &&(
-        <ModalBestPick open={isShowModalBestPick} onClose={()=> setShowModalBestPick(false)} skinCondition={selectedSkinCondition} />
+      {isShowModalBestPick && (
+        <ModalBestPick
+          open={isShowModalBestPick}
+          onClose={() => setShowModalBestPick(false)}
+          skinCondition={selectedSkinCondition}
+        />
       )}
-      
     </Box>
   );
 };
