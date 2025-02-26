@@ -81,9 +81,7 @@ const FaceAnalysis = () => {
   };
 
   const handleSkinType = (result) => {
-    const skinTypeArr = Object.values(result.result.skin_type.details);
-    const max = skinTypeArr.reduce((prev, current) => (prev && prev.confidence > current.confidence ? prev : current));
-    setSkinType(SKIN_TYPE_MAP[max.value]);
+    setSkinType(result.result.skin_type.skin_type);
   };
   const handleBack = () => {
     navigate('/wizard?step=2');
@@ -155,7 +153,7 @@ const FaceAnalysis = () => {
                     letterSpacing: '0.01em',
                   }}
                 >
-                  {skinType}
+                  {SKIN_TYPE_MAP[skinType]}
                 </Typography>
               </Box>
             )}
