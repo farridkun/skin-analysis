@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router';
 import { Typography, Box, Button, Stack, CircularProgress, Backdrop } from '@mui/material';
 import logo from '../assets/logo.jpeg';
 import NoticeConsent from './NoticeConsent';
@@ -14,9 +14,30 @@ const SELFIE_INSTRUCTIONS = [
 
 const Wizard = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [consent, setConsent] = useState(false);
   const [wizardStep, setWizardStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('step')) {
+      setWizardStep(searchParams.get('step'));
+    }
+  }, [searchParams]);
+
+  const isButtonDisabled = useMemo(() => {
+    if (isLoading) {
+      return true;
+    }
+
+    if (wizardStep == 2) {
+      return false;
+    }
+
+    if (!consent) {
+      return true;
+    }
+  }, [isLoading, consent, wizardStep]);
 
   const handleNext = async () => {
     if (wizardStep == 1) {
@@ -28,6 +49,10 @@ const Wizard = () => {
 
         stream.getTracks().forEach((track) => track.stop());
         setWizardStep(2);
+        setSearchParams({
+          step: 2,
+        });
+        setConsent(false);
       } catch (error) {
         console.error('Camera permission denied or error:', error);
         alert('Camera access is required to analyze your skin. Please allow camera access to continue.');
@@ -67,6 +92,7 @@ const Wizard = () => {
       </Stack>
     );
   };
+
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header handleBack={handleBack} />
@@ -142,7 +168,7 @@ const Wizard = () => {
           <Button
             variant='contained'
             fullWidth
-            disabled={!consent || isLoading}
+            disabled={isButtonDisabled}
             onClick={handleNext}
             sx={{
               marginTop: 1,

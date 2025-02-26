@@ -32,10 +32,9 @@ const FaceAnalysis = () => {
     formData.append('api_key', API_KEY);
     formData.append('api_secret', API_SECRET);
     formData.append('image_file', blob);
-    formData.append('return_attributes', 'skinstatus,beauty');
 
     try {
-      const response = await axios.post('https://api-us.faceplusplus.com/facepp/v3/detect', formData, {
+      const response = await axios.post('https://api-us.faceplusplus.com/facepp/v1/skinanalyze', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setAnalysisResult(response.data);
@@ -47,7 +46,7 @@ const FaceAnalysis = () => {
   };
 
   const handleBack = () => {
-    navigate('/wizard');
+    navigate('/wizard?step=2');
   };
 
   return (
