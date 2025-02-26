@@ -2,8 +2,14 @@ import React from 'react';
 import { Modal, Box, Typography, Grid, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import share_icons from "../assets/share_icons.png";
+import { useNavigate } from 'react-router';
 
 const ShareModal = ({ open, onClose }) => {
+    const navigate = useNavigate();
+  
+  const handleClick = () => {
+    navigate('/share');
+  };
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={{
@@ -30,6 +36,7 @@ const ShareModal = ({ open, onClose }) => {
         <Grid container spacing={2} justifyContent="center">
         <img
               src={share_icons}
+              onClick={handleClick}
               alt="Hackathon Logo"
               style={{
                 width: "95%",

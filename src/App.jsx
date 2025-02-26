@@ -4,6 +4,7 @@ import Homepage from './components/Homepage';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import Wizard from './components/Wizard';
 import BestPickupProductList from './components/BestPickupProductList';
+import SharePage from './components/SharePage';
 
 import { useEffect, useState } from 'react';
 
@@ -34,6 +35,7 @@ function App() {
           <Route path='/' element={<Homepage />} />
           <Route path='/wizard' element={<Wizard />} />
           <Route path='/products' element={<BestPickupProductList />} />
+          <Route path='/share' element={<SharePage />} />
           <Route path='/analyze' element={<FaceAnalysis />} />
         </Routes>
       </BrowserRouter>
