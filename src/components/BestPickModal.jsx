@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from "react";
+
 import { Modal, Box, Typography, Button, Grid,  } from '@mui/material';
 
 
 import ratingStar from "../assets/Star.png";
 import icon_checkbox from "../assets/icon_checkbox.png";
+import icon_checkbox_unselected from "../assets/unselected.png";
+
 import { useNavigate } from 'react-router';
 
 const productsDummy = [
@@ -99,7 +102,6 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     skinConcern: "Pori Besar",
     skinType: 'Kulit Normal',
     total_review: '8',
-
     image: 'https://images.soco.id/3c54d432-1220-47d0-a16e-30969a459c32-image-0-1734074110464'
 
 
@@ -134,20 +136,7 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
 
   },
  
-  {
-    category: "Face Cream",
-    brand: "Innisfree",
-    productName: "My Melody - Green Tea Seed Hyaluronic Cream",
-    normalPrice: "Rp389,000",
-    discountPrice: null,
-    rating: '4.9',
-    skinConcern: "Flek",
-    skinType: 'Kulit Kombinasi',
-    total_review: '44',
-    image: 'https://images.soco.id/e96030f5-e027-460d-86ba-1d1f0a9e0442-image-0-1738744053871'
-
-
-  },
+  
   {
     category: "Face Cream",
     brand: "Skintific",
@@ -158,7 +147,6 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     skinConcern: "Pori Besar",
     skinType: 'Kulit Kombinasi',
     total_review: '7',
-
     image: 'https://images.soco.id/86495363-cfa7-4229-93fd-93a4ee2ef9b7-image-0-1737347310768'
 
   },
@@ -186,10 +174,21 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
   };
 
   const filterBySkinType = (skinType) => {
-    return productsDummy.filter(product => product.skinType === skinCondition);
+    return productsDummy.filter(product => product.skinConcern === skinCondition);
   };
+
+  const [selectedItems, setSelectedItems] = useState('');
+
+  const handleCheckboxChange = (productName) => {
+    setSelectedItems((prev) =>
+      prev.includes(productName) ? prev.filter((item) => item !== productName) : [...prev, productName]
+    );
+  };
+  
+
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} sx={{          backdropFilter: 'blur(10px)',
+    }}>
       <Box
         sx={{
           position: 'absolute',
@@ -216,7 +215,7 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
         {filterBySkinType(skinCondition).map((item, index) => (
           <>
           
-          <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 2 }} onClick={()=>handleCheckboxChange(item.productName)}>
             <img
                           src={item.image}
                           style={{
@@ -260,17 +259,30 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
                     
             </Box>
             <Box display='flex'  sx={{alignContent: 'flex-end', flexDirection:'row'}}>
-
-            <img
-                          src={icon_checkbox}
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            marginLeft:80,
-                            bottom:25,
-                            position: 'relative'
-                          }}
-                        />
+              {selectedItems.includes(item.productName) ? (
+                <img
+                                        src={icon_checkbox}
+                                        style={{
+                                          width: "24px",
+                                          height: "24px",
+                                          marginLeft:80,
+                                          bottom:25,
+                                          position: 'relative'
+                                        }}
+                                      />
+              ): 
+              <img
+                                        src={icon_checkbox_unselected}
+                                        style={{
+                                          width: "24px",
+                                          height: "24px",
+                                          marginLeft:80,
+                                          bottom:25,
+                                          position: 'relative'
+                                        }}
+                                      />
+              }
+          
             </Box>
 
           </Box>
@@ -278,8 +290,6 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
         ))}
          
     </Box>
-
-
         <Grid container spacing={2} sx={{ mt: 2 }}>
           <Grid item xs={6}>
           <Button 
@@ -299,7 +309,9 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
             onClick={() => {
               handleSeeAll()
             }}
-            fullWidth variant="contained" color="secondary" sx={{ bgcolor: '#D32F2F' }}>
+            fullWidth variant="contained" color="secondary" sx={{ bgcolor: '#D32F2F',              backgroundColor: '#EB395F',
+            }}
+          >
               SEE ALL
             </Button>
           </Grid>
