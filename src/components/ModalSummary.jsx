@@ -2,13 +2,17 @@ import React from 'react';
 import { Modal, Box, Typography, Grid, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import jerawat from "../assets/jerawat.png";
-import berminyak from "../assets/berminyak.png";
+import flek from "../assets/flek.png";
+import komedo from "../assets/komedo.png";
 import pori from "../assets/pori.png";
 
+
 const tags = [
-  { label: 'Kulit Berminyak', icon: berminyak },
-  { label: 'Komedo', icon: pori },
-  { label: 'Flek', icon: jerawat }
+  { label: 'Komedo', icon: komedo },
+  { label: 'jerawat', icon: jerawat },
+  { label: 'Flek', icon: flek },
+  { label: 'Pori Besar', icon: pori }
+
 ];
 
 const TagButtons = () => {
