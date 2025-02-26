@@ -18,7 +18,7 @@ const productsDummy = [
     normalPrice: "Rp449,000",
     discountPrice: "Rp249,000",
     rating: '4.3',
-    skinConcern: "Pori Besar",
+    skinConcern: "Pori",
     skinType: 'Kulit Berminyak',
     image: 'https://images.soco.id/81e89bb3-2999-44de-bb1b-980f25e5fa3d-image-0-1733816188297'
     
@@ -85,7 +85,7 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     normalPrice: "Rp143,200",
     discountPrice: null,
     rating: '4.7',
-    skinConcern: "Pori Besar",
+    skinConcern: "Pori",
     skinType: 'Kulit Kering',
     total_review: '5',
 
@@ -100,7 +100,7 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     normalPrice: "Rp545,000",
     discountPrice: null,
     rating: '4.9',
-    skinConcern: "Pori Besar",
+    skinConcern: "Pori",
     skinType: 'Kulit Normal',
     total_review: '8',
     image: 'https://images.soco.id/3c54d432-1220-47d0-a16e-30969a459c32-image-0-1734074110464'
@@ -145,7 +145,7 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     normalPrice: "Rp165,400",
     discountPrice: null,
     rating: '4.6',
-    skinConcern: "Pori Besar",
+    skinConcern: "Pori",
     skinType: 'Kulit Kombinasi',
     total_review: '7',
     image: 'https://images.soco.id/86495363-cfa7-4229-93fd-93a4ee2ef9b7-image-0-1737347310768'
