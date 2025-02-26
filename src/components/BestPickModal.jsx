@@ -120,7 +120,7 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
             variant="outlined" 
             sx={{ fontSize: 10, textTransform: 'none',paddingTop:1.5, paddingBottom:1.5, backgroundColor:'white',borderColor:'black' }}
             >
-                <Typography variant="body2" color="textSecondary" sx={{ fontSize:"10px"  }}>SAVE TO COLLECTION</Typography>
+                <Typography variant="body2" color="textSecondary" sx={{ fontSize:"11px" ,color: 'black' }}>SAVE TO COLLECTION</Typography>
 
         </Button>       
            </Grid>
