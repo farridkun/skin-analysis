@@ -20,7 +20,8 @@ const ShareModal = ({ open, onClose }) => {
         width: '100%',
         maxWidth: 400,
         backgroundColor: '#FFFFFF',
-        borderRadius: 3,
+        borderTopLeftRadius: 3,
+        borderTopLeftRadius:3,
         p: 3,
         boxShadow: 24,
       }}>
