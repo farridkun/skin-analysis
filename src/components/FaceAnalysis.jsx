@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import axios from "axios";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
-import hackathonLogo from "../assets/hackathon-2025.png";
 import ModalShare from "./ModalShare";
 import ModalSummary from "./ModalSummary";
 import ModalBestPick from "./BestPickModal";
@@ -18,6 +17,8 @@ const SKIN_TYPE_MAP = ['Kulit Berminyak', 'Kulit Kering', 'Kulit Normal', 'Kulit
 const FaceAnalysis = () => {
   const navigate = useNavigate();
   const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
+
   const [capturedImage, setCapturedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,8 +62,9 @@ const FaceAnalysis = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setAnalysisResult(response.data);
-
       handleSkinType(response.data);
+
+      await fetchFaceLandmarks(blob);
     } catch (error) {
       console.error('Face++ API Error:', error);
     } finally {
@@ -80,6 +82,60 @@ const FaceAnalysis = () => {
     //
   };
 
+  const fetchFaceLandmarks = async (blob) => {
+    const formData = new FormData();
+    formData.append("api_key", API_KEY);
+    formData.append("api_secret", API_SECRET);
+    formData.append("image_file", blob);
+    formData.append("return_landmark", "face");
+  
+    try {
+      const response = await axios.post(
+        "https://api-us.faceplusplus.com/facepp/v1/face/thousandlandmark",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      
+      if (response.data.face.landmark && response.data.face.landmark.face) {
+        drawLandmarks(response.data.face.landmark.face);
+      }
+    } catch (error) {
+      console.error("Face++ Landmark API Error:", error);
+    }
+  };
+
+  const drawLandmarks = (landmarks) => {
+    const canvas = document.createElement("canvas");
+    const img = new Image();
+    img.src = capturedImage;
+  
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+  
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+  
+      ctx.fillStyle = "pink";
+      ctx.strokeStyle = "blue";
+      ctx.lineWidth = 2;
+  
+      const scaleX = img.width / window.height;
+      const scaleY = img.height / window.innerHeight;
+  
+      Object.values(landmarks).forEach((point) => {
+        const x = point.x * scaleX;
+        const y = point.y * scaleY;
+  
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, 2 * Math.PI);
+        ctx.fill();
+      });
+  
+      setCapturedImage(canvas.toDataURL("image/png"));
+    };
+  };  
+  
   const handleSkinType = (result) => {
     const skinTypeArr = Object.values(result.result.skin_type.details);
     const max = skinTypeArr.reduce((prev, current) => (prev && prev.confidence > current.confidence ? prev : current));
@@ -125,6 +181,17 @@ const FaceAnalysis = () => {
         // Captured Image View
         <Box position='relative' width='100vw' height='100vh'>
           <img src={capturedImage} alt='Captured' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <canvas
+            ref={canvasRef}
+            width="100%"
+            height="100%"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              pointerEvents: "none",
+            }}
+          />
           <Box
             position='absolute'
             bottom={30}
