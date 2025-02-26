@@ -5,6 +5,7 @@ import product2 from "../assets/product_2_dummy.png";
 import product3 from "../assets/product_3_dummy.png";
 import ratingStar from "../assets/Star.png";
 import icon_checkbox from "../assets/icon_checkbox.png";
+import { useNavigate } from 'react-router';
 
 const productBestPickList=[{
     name: "Pink AHABHA Serum",
@@ -35,6 +36,11 @@ const productBestPickList=[{
 
 }]
 const BestPicksModal = ({ open, onClose, skinCondition }) => {
+  const navigate = useNavigate();
+
+  const handleSeeAll = () => {
+    navigate('/products');
+  };
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -139,7 +145,7 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
           <Grid item xs={6}>
             <Button
             onClick={() => {
-              onClose()
+              handleSeeAll()
             }}
             fullWidth variant="contained" color="secondary" sx={{ bgcolor: '#D32F2F' }}>
               SEE ALL

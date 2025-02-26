@@ -3,6 +3,8 @@ import { Box, CssBaseline, Typography } from '@mui/material';
 import Homepage from './components/Homepage';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import Wizard from './components/Wizard';
+import BestPickupProductList from './components/BestPickupProductList';
+
 import { useEffect, useState } from 'react';
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Homepage />} />
           <Route path='/wizard' element={<Wizard />} />
+          <Route path='/products' element={<BestPickupProductList />} />
           <Route path='/analyze' element={<FaceAnalysis />} />
         </Routes>
       </BrowserRouter>
