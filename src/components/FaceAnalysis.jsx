@@ -92,7 +92,8 @@ const FaceAnalysis = () => {
   };
   
   const handleSkinType = (result) => {
-    setSkinType(result.result.skin_type.skin_type);
+    const res = SKIN_TYPE_MAP.find(st => st.value == result.result.skin_type.skin_type)
+    setSkinType(res);
   };
 
   const handleSkinConditions = (result) => {
@@ -101,7 +102,7 @@ const FaceAnalysis = () => {
     for (const [key, value] of Object.entries(data)) {
       if (['acne', 'blackhead', 'skin_spot'].includes(key)) {
         if (value.value == 1) {
-          tempSkinConditions.push(value.name)
+          tempSkinConditions.push(key)
         }
       }
       if (['pores_left_cheek', 'pores_forehead', 'pores_jaw', 'pores_right_cheek'].includes(key)) {
@@ -111,7 +112,8 @@ const FaceAnalysis = () => {
       }
     }
     const uniqueSkinConditions = [...new Set(tempSkinConditions)];
-    setSkinConditions(uniqueSkinConditions.map(sc => SKIN_CONDITION_MAP[sc]));
+    const completeSkinConditions = uniqueSkinConditions.map(sc => SKIN_CONDITION_MAP.find(s => s.value == sc));
+    setSkinConditions(completeSkinConditions);
   }
 
   const handleBack = () => {
@@ -261,7 +263,7 @@ const FaceAnalysis = () => {
                     letterSpacing: '0.01em',
                   }}
                 >
-                  {SKIN_TYPE_MAP[skinType].label}
+                  {skinType.label}
                 </Typography>
               </Box>
             )}

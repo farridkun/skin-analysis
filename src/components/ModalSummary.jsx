@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal, Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { SKIN_TYPE_MAP } from '../constants/constant';
 import { useNavigate } from 'react-router';
 
 const TagButtons = ({ skinConditions, skinType }) => {
@@ -10,8 +9,6 @@ const TagButtons = ({ skinConditions, skinType }) => {
   const onClickTag = () => {
     navigate('/products');
   }
-
-  const skinTypeResult = SKIN_TYPE_MAP[skinType]
 
   return (
     <Box display='flex' gap={2}>
@@ -34,7 +31,7 @@ const TagButtons = ({ skinConditions, skinType }) => {
         onClick={onClickTag}
       >
         <img
-          src={skinTypeResult.icon}
+          src={skinType.icon}
           style={{
             width: '10px',
             height: '10px',
@@ -42,7 +39,7 @@ const TagButtons = ({ skinConditions, skinType }) => {
             position: 'relative',
           }}
         />
-        <Typography sx={{ fontSize: 10 }}>{skinTypeResult.label}</Typography>
+        <Typography sx={{ fontSize: 10 }}>{skinType.label}</Typography>
       </Box>
       {skinConditions.map((tag, index) => (
         <Box
@@ -106,14 +103,14 @@ const Summary = ({ open, onClose, skinConditions, skinType }) => {
         </Box>
         <TagButtons skinConditions={skinConditions} skinType={skinType} />
         <Typography variant='body2' sx={{ mt: 1, mb: 2, fontSize: 14 }}>
-          Berdasarkan hasil analisis wajah, kondisi kulit Anda menunjukkan kecenderungan lebih dominan terhadap masalah
-          flek dan komedo. Persentase flek pada kulit Anda mencapai 60%, sementara komedo sebesar 40%. Hal ini
-          menunjukkan bahwa perawatan utama sebaiknya difokuskan pada mengatasi flek dengan penggunaan produk pencerah,
-          perlindungan dari sinar matahari, serta bahan aktif seperti vitamin C, niacinamide, atau alpha arbutin. Selain
-          itu, perawatan untuk mengatasi komedo juga penting agar pori-pori tetap bersih dan tidak tersumbat, seperti
-          rutin melakukan eksfoliasi ringan serta menggunakan produk berbahan aktif seperti salicylic acid atau clay
-          mask untuk membersihkan pori-pori secara mendalam.
+          {skinType.desc}
         </Typography>
+
+        {skinConditions.map((condition, index) => (
+          <Typography variant='body2' sx={{ mt: 1, mb: 2, fontSize: 14 }} key={index}>
+            {condition.desc}
+          </Typography>
+        ))}
       </Box>
     </Modal>
   );
