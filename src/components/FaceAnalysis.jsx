@@ -3,6 +3,9 @@ import Webcam from "react-webcam";
 import axios from "axios";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import hackathonLogo from "../assets/hackathon-2025.png";
+import ModalShare from "./ModalShare";
+import ModalSummary from "./ModalSummary";
+import ModalBestPick from "./BestPickModal";
 
 const API_KEY = import.meta.env.VITE_FACEPP_API_KEY;
 const API_SECRET = import.meta.env.VITE_FACEPP_API_SECRET;
@@ -13,6 +16,13 @@ const FaceAnalysis = () => {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isShowModalShare, setShowModalShare] = useState(false);
+  //show modal summary
+  const [isShowModalSummary, setShowModalSummary] = useState(false);
+  //show modal bestpick
+  const [isShowModalBestPick, setShowModalBestPick] = useState(true);
+  //select skin condition
+  const [selectedSkinCondition, setSelectedSkinCondition] = useState('Komedo');
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -29,7 +39,7 @@ const FaceAnalysis = () => {
     setCapturedImage(null);
     setAnalysisResult(null);
   };
-
+  
   const analyzeImage = async () => {
     setIsLoading(true);
     const blob = await fetch(capturedImage).then((res) => res.blob());
@@ -82,7 +92,7 @@ const FaceAnalysis = () => {
             sx={{
               transform: "translateX(-50%)",
               zIndex: 1,
-              width: "150px",  // Adjust size as needed
+              width: "150px", 
             }}
           >
             <img
@@ -135,12 +145,26 @@ const FaceAnalysis = () => {
           width="90%"
           maxWidth={400}
         >
-          <Typography variant="h6">Analysis Result:</Typography>
+          <Typography variant="h6">Analyfffsis Result:</Typography>
           <pre style={{ fontSize: "12px", whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
             {JSON.stringify(analysisResult, null, 2)}
           </pre>
         </Box>
       )}
+
+      {isShowModalShare && (
+        <ModalShare open={isShowModalShare} onClose={()=> setShowModalShare(false)} />
+      )}
+
+      {isShowModalSummary && (
+        <ModalSummary open={isShowModalSummary} onClose={()=> setShowModalSummary(false)} />
+      )}
+
+      {isShowModalBestPick &&(
+                <ModalBestPick open={isShowModalBestPick} onClose={()=> setShowModalBestPick(false)} skinCondition={selectedSkinCondition} />
+
+      )}
+      
     </Box>
   );
 };
