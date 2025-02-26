@@ -8,7 +8,6 @@ import icon_checkbox from "../assets/icon_checkbox.png";
 import icon_checkbox_unselected from "../assets/unselected.png";
 
 import { useNavigate } from 'react-router';
-const SKIN_TYPE_MAP = ['Kulit Berminyak', 'Kulit Kering', 'Kulit Normal', 'Kulit Kombinasi'];
 
 const productsDummy = [
   {
