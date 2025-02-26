@@ -42,7 +42,7 @@ const ShareModal = ({ open, onClose }) => {
                   ':hover': { borderColor: 'black' }
                 }}
               >
-                <Typography variant="caption" align="center">{label}</Typography>
+                <Typography variant="caption" align="center">{label} test</Typography>
               </Box>
             </Grid>
           ))}
