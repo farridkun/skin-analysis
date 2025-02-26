@@ -1,11 +1,14 @@
 import React from 'react';
 import { Modal, Box, Typography, Grid, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import jerawat from "../assets/jerawat.png";
+import berminyak from "../assets/berminyak.png";
+import pori from "../assets/pori.png";
 
 const tags = [
-  { label: 'Kulit Berminyak', emoji: '💧' },
-  { label: 'Komedo', emoji: '⚫' },
-  { label: 'Flek', emoji: '🟤' }
+  { label: 'Kulit Berminyak', icon: berminyak },
+  { label: 'Komedo', icon: pori },
+  { label: 'Flek', icon: jerawat }
 ];
 
 const TagButtons = () => {
@@ -31,6 +34,15 @@ const TagButtons = () => {
           }}
         >
           <Typography>{tag.emoji}</Typography>
+           <img
+                                    src={tag.icon}
+                                    style={{
+                                      width: "10px",
+                                      height: "10px",
+                                      right:10,
+                                      position:'relative'
+                                    }}
+                                  />  
           <Typography sx={{fontSize:10}}>{tag.label}</Typography>
         </Box>
       ))}
