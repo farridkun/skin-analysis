@@ -8,6 +8,7 @@ import ModalSummary from "./ModalSummary";
 import ModalBestPick from "./BestPickModal";
 import { useNavigate } from 'react-router';
 import Header from './Header';
+import iconCamera from '../assets/icon-camera.png';
 
 const API_KEY = import.meta.env.VITE_FACEPP_API_KEY;
 const API_SECRET = import.meta.env.VITE_FACEPP_API_SECRET;
@@ -60,7 +61,6 @@ const FaceAnalysis = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setAnalysisResult(response.data);
-      console.log('🚀🚀🚀 ~ response.data:', response.data);
 
       handleSkinType(response.data);
     } catch (error) {
@@ -113,14 +113,12 @@ const FaceAnalysis = () => {
 
           {/* Capture Button */}
           <Box position='absolute' bottom={30} left='50%' sx={{ transform: 'translateX(-50%)' }}>
-            <Button
-              variant='contained'
-              size='large'
+            <img
+              src={iconCamera}
+              alt='Capture'
               onClick={captureImage}
-              sx={{ borderRadius: '50%', width: 60, height: 60, backgroundColor: '#FF73A5' }}
-            >
-              📸
-            </Button>
+              style={{ width: 60, height: 60, cursor: 'pointer' }}
+            />
           </Box>
         </Box>
       ) : (
@@ -161,13 +159,17 @@ const FaceAnalysis = () => {
                 </Typography>
               </Box>
             )}
-            <Box display='flex' gap={2}>
+            <Box display='flex' gap={2} width='100%' maxWidth={400} px={2}>
               <Button
                 variant='outlined'
-                color='error'
+                color='black'
                 size='large'
                 onClick={analysisResult ? showSummary : retakeImage}
-                sx={{ backgroundColor: '#FFF' }}
+                sx={{
+                  flex: 1,
+                  backgroundColor: analysisResult ? '#FEE9E7' : '#FFF',
+                  textTransform: 'none',
+                }}
               >
                 {analysisResult ? 'Summary' : 'Retake Selfie'}
               </Button>
@@ -176,7 +178,11 @@ const FaceAnalysis = () => {
                 size='large'
                 onClick={analysisResult ? shareImage : analyzeImage}
                 disabled={isLoading}
-                sx={{ backgroundColor: '#FF73A5' }}
+                sx={{
+                  flex: 1,
+                  backgroundColor: '#EB395F',
+                  textTransform: 'none',
+                }}
               >
                 {isLoading ? <CircularProgress size={24} color='inherit' /> : analysisResult ? 'Share' : 'Analyze'}
               </Button>
