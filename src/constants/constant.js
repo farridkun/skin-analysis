@@ -48,7 +48,7 @@ export const SKIN_CONDITION_MAP = [
     },
     {
         value: 'skin_spot',
-        label: 'Blemish',
+        label: 'Skin Spot',
         icon: flek,
         desc: 'Based on the results of the facial analysis, your skin condition shows a tendency to be more dominant towards spots. Spots or hyperpigmentation can appear due to sun exposure, dark acne scars, aging, or hormonal changes. To overcome this condition, the main treatment should be focused on brightening the skin and preventing the appearance of new spots. Using sunscreen with an SPF of at least 30 is very important to protect the skin from UV rays that can worsen spots. In addition, using active ingredients such as vitamin C, niacinamide, alpha arbutin, or retinol can help brighten the skin and fade spots gradually. Regularly doing light exfoliation can also help accelerate skin cell regeneration to make it look brighter and more even.'
     },
