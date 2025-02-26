@@ -4,6 +4,7 @@ import product1 from "../assets/product_1_dummy.png";
 import product2 from "../assets/product_2_dummy.png";
 import product3 from "../assets/product_3_dummy.png";
 import ratingStar from "../assets/Star.png";
+import icon_checkbox from "../assets/icon_checkbox.png";
 
 const productBestPickList=[{
     name: "Pink AHABHA Serum",
@@ -24,7 +25,7 @@ const productBestPickList=[{
     image: product2
 },
 {
-    name: "Volcano 3D Acid Pore Mask",
+    name: "Volcano 3D Acid Pore",
     brand: "GLAD2GLOW",
     price_after_discount: "Rp31.000",
     price: "Rp39.000",
@@ -73,7 +74,7 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
                         />
             <Box>
               <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>{item.brand}</Typography>
-              <Typography variant="body2" color="textSecondary">{item.name}</Typography>
+              <Typography variant="body2" color="textSecondary"  sx={{width:140}}>{item.name}</Typography>
               <Box display="flex" flexDirection="row" >
                 <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#D32F2F' }}>{item.price_after_discount}</Typography>
                 <Typography variant="body2" sx={{  marginLeft:1 ,  color:'grey', fontSize:12, top:1,position: 'relative',  textDecorationLine: 'line-through',
@@ -100,11 +101,24 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
             </Box> 
                     
             </Box>
+            <Box display='flex'  sx={{alignContent: 'flex-end', flexDirection:'row'}}>
+
+            <img
+                          src={icon_checkbox}
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginLeft:80,
+                            bottom:25,
+                            position: 'relative'
+                          }}
+                        />
+            </Box>
+
           </Box>
-          
           </>
-          
         ))}
+         
     </Box>
 
 
