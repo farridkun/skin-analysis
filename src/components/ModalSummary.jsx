@@ -51,7 +51,7 @@ const TagButtons = () => {
 };
 
 
-const Summary = ({ open, onClose }) => {
+const Summary = ({ open, onClose, skinConditions}) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={{
