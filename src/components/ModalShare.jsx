@@ -26,14 +26,11 @@ const ShareModal = ({ open, onClose }) => {
         boxShadow: 24,
       }}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h6">Share</Typography>
+          <Typography variant="h6" sx={{right:8, position: 'relative'}}>Share</Typography>
           <IconButton onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </Box>
-        <Typography variant="body2" sx={{ mt: 1, mb: 2, fontSize: 14 }}>
-          Bagikan pengalaman menggunakan produk kecantikan dan personal care ini ke teman-temanmu!
-        </Typography>
         <Grid container spacing={2} justifyContent="center">
         <img
               src={share_icons}
