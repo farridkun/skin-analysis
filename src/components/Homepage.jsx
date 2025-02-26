@@ -6,6 +6,7 @@ const Homepage = () => {
   const handleClick = () => {
     navigate('/wizard');
   };
+
   return (
     <div>
       <img src={homepageScreen} alt='' width={'100%'} onClick={handleClick} />
