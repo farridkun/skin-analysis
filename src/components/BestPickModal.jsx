@@ -309,7 +309,9 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
             onClick={() => {
               handleSeeAll()
             }}
-            fullWidth variant="contained" color="secondary" sx={{ bgcolor: '#D32F2F' }}>
+            fullWidth variant="contained" color="secondary" sx={{ bgcolor: '#D32F2F',              backgroundColor: '#EB395F',
+            }}
+          >
               SEE ALL
             </Button>
           </Grid>
