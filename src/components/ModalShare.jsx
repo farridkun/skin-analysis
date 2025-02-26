@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Box, Typography, Grid, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import share_icons from "../assets/share_icons.png";
 
 const ShareModal = ({ open, onClose }) => {
   return (
@@ -27,25 +28,15 @@ const ShareModal = ({ open, onClose }) => {
           Bagikan pengalaman menggunakan produk kecantikan dan personal care ini ke teman-temanmu!
         </Typography>
         <Grid container spacing={2} justifyContent="center">
-          {["IG Story", "WhatsApp", "Facebook", "X", "Email", "Copy Link", "Download", "More"].map((label) => (
-            <Grid item xs={3} key={label}>
-              <Box
-                sx={{
-                  width: 60,
-                  height: 60,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '2px solid #ccc',
-                  borderRadius: 2,
-                  cursor: 'pointer',
-                  ':hover': { borderColor: 'black' }
-                }}
-              >
-                <Typography variant="caption" align="center">{label} test</Typography>
-              </Box>
-            </Grid>
-          ))}
+        <img
+              src={share_icons}
+              alt="Hackathon Logo"
+              style={{
+                width: "95%",
+                height: "auto",
+                marginTop:30
+              }}
+            />
         </Grid>
       </Box>
     </Modal>
