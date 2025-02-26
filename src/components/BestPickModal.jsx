@@ -188,7 +188,8 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
   
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} sx={{          backdropFilter: 'blur(10px)',
+    }}>
       <Box
         sx={{
           position: 'absolute',
