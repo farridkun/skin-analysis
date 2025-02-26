@@ -17,7 +17,7 @@ const productBestPickList=[{
 {
     name: "Gentle Skin Cleanser",
     brand: "CETAPHIL",
-    price_after_discount: "404.000",
+    price_after_discount: "Rp404.000",
     price: "Rp343.740",
     ratings: '4.4',
     total_review: '16.1k',
@@ -55,12 +55,10 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
           bgcolor: 'white',
           p:3,
           borderRadius: 3,
-
     }}>
          <Typography variant="h6" align="center" sx={{ mb: 2, fontWeight: 'bold', color: '#8B2D56' }}>
           Best Picks for {skinCondition}
         </Typography>
-
         {productBestPickList.map((item, index) => (
           <>
           
