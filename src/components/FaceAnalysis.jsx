@@ -8,11 +8,10 @@ import ModalBestPick from "./BestPickModal";
 import { useNavigate } from 'react-router';
 import Header from './Header';
 import iconCamera from '../assets/icon-camera.png';
+import { SKIN_CONDITION_MAP, SKIN_TYPE_MAP } from "../constants/constant";
 
 const API_KEY = import.meta.env.VITE_FACEPP_API_KEY;
 const API_SECRET = import.meta.env.VITE_FACEPP_API_SECRET;
-
-const SKIN_TYPE_MAP = ['Kulit Berminyak', 'Kulit Kering', 'Kulit Normal', 'Kulit Kombinasi'];
 
 const FaceAnalysis = () => {
   const navigate = useNavigate();
@@ -30,6 +29,7 @@ const FaceAnalysis = () => {
   const [isShowModalBestPick, setShowModalBestPick] = useState(false);
   //select skin condition
   const [selectedSkinCondition, setSelectedSkinCondition] = useState('Komedo');
+  const [skinConditions, setSkinConditions] = useState([]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -63,6 +63,7 @@ const FaceAnalysis = () => {
       });
       setAnalysisResult(response.data);
       handleSkinType(response.data);
+      handleSkinConditions(response.data);
 
       await fetchFaceLandmarks(blob);
     } catch (error) {
@@ -139,6 +140,26 @@ const FaceAnalysis = () => {
   const handleSkinType = (result) => {
     setSkinType(result.result.skin_type.skin_type);
   };
+
+  const handleSkinConditions = (result) => {
+    const data = result.result;
+    const tempSkinConditions = [];
+    for (const [key, value] of Object.entries(data)) {
+      if (['acne', 'blackhead', 'skin_spot'].includes(key)) {
+        if (value.value == 1) {
+          tempSkinConditions.push(value.name)
+        }
+      }
+      if (['pores_left_cheek', 'pores_forehead', 'pores_jaw', 'pores_right_cheek'].includes(key)) {
+        if (value.value == 1) {
+          tempSkinConditions.push('pores')
+        }
+      }
+    }
+    const uniqueSkinConditions = [...new Set(tempSkinConditions)];
+    setSkinConditions(uniqueSkinConditions.map(sc => SKIN_CONDITION_MAP[sc]));
+  }
+
   const handleBack = () => {
     navigate('/wizard?step=2');
   };
@@ -220,7 +241,7 @@ const FaceAnalysis = () => {
                     letterSpacing: '0.01em',
                   }}
                 >
-                  {SKIN_TYPE_MAP[skinType]}
+                  {SKIN_TYPE_MAP[skinType].label}
                 </Typography>
               </Box>
             )}
@@ -279,7 +300,7 @@ const FaceAnalysis = () => {
       )}
 
       {isShowModalSummary && (
-        <ModalSummary open={isShowModalSummary} onClose={()=> setShowModalSummary(false)} />
+        <ModalSummary open={isShowModalSummary} onClose={()=> setShowModalSummary(false)} skinConditions={skinConditions} skinType={skinType} />
       )}
 
       {isShowModalBestPick &&(

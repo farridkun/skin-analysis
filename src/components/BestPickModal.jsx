@@ -5,7 +5,6 @@ import { Modal, Box, Typography, Button, Grid,  } from '@mui/material';
 import ratingStar from "../assets/Star.png";
 import icon_checkbox from "../assets/icon_checkbox.png";
 import { useNavigate } from 'react-router';
-const SKIN_TYPE_MAP = ['Kulit Berminyak', 'Kulit Kering', 'Kulit Normal', 'Kulit Kombinasi'];
 
 const productsDummy = [
   {
