@@ -229,6 +229,7 @@ const FaceAnalysis = () => {
                 variant='outlined'
                 color='black'
                 size='large'
+                disabled={isLoading}
                 onClick={analysisResult ? showSummary : retakeImage}
                 sx={{
                   flex: 1,
@@ -236,7 +237,7 @@ const FaceAnalysis = () => {
                   textTransform: 'none',
                 }}
               >
-                {analysisResult ? 'Summary' : 'Retake Selfie'}
+                {isLoading ? <CircularProgress size={24} color='inherit' /> : analysisResult ? 'Summary' : 'Retake Selfie'}
               </Button>
               <Button
                 variant='contained'

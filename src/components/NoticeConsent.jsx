@@ -30,7 +30,7 @@ const NoticeConsent = ({ consent, setConsent }) => {
         }
         label={
           <Typography variant='caption' sx={{ fontSize: '0.7rem' }}>
-            By checking the box and clicking the "Next" button below, I agree to the{' '}
+            By checking the box and clicking the "Next" button below, I agree to the Sociolla{' '}
             <Link
               href='https://www.soco.id/page/privacypolicy'
               target='_blank'
@@ -40,7 +40,7 @@ const NoticeConsent = ({ consent, setConsent }) => {
                 textDecoration: 'underline',
               }}
             >
-              Sociolla Privacy Policy
+              Privacy Policy
             </Link>
             , and the{' '}
             <Link
@@ -55,7 +55,19 @@ const NoticeConsent = ({ consent, setConsent }) => {
               Terms & Conditions
             </Link>
             , and I expressly consent to the scanning and other processing of my image, face, facial geometry, and
-            biometric data as described in the Sociolla Privacy Policy.
+            biometric data as described in the Sociolla{' '}
+            <Link
+              href='https://www.soco.id/page/privacypolicy'
+              target='_blank'
+              rel='noopener noreferrer'
+              sx={{
+                color: '#B32656',
+                textDecoration: 'underline',
+              }}
+            >
+              Privacy Policy
+            </Link>
+            .
           </Typography>
         }
       />
