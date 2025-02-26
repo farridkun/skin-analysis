@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import axios from "axios";
@@ -8,6 +9,10 @@ import ModalBestPick from "./BestPickModal";
 import { useNavigate } from 'react-router';
 import Header from './Header';
 import iconCamera from '../assets/icon-camera.png';
+import iconPori from '../assets/PORI.png';
+import iconKomedo from '../assets/KOMEDO.png';
+import iconJerawat from '../assets/JERAWAT.png';
+import iconFlex from '../assets/FLEK.png';
 
 const API_KEY = import.meta.env.VITE_FACEPP_API_KEY;
 const API_SECRET = import.meta.env.VITE_FACEPP_API_SECRET;
@@ -17,7 +22,6 @@ const SKIN_TYPE_MAP = ['Kulit Berminyak', 'Kulit Kering', 'Kulit Normal', 'Kulit
 const FaceAnalysis = () => {
   const navigate = useNavigate();
   const webcamRef = useRef(null);
-  const canvasRef = useRef(null);
 
   const [capturedImage, setCapturedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
@@ -30,6 +34,7 @@ const FaceAnalysis = () => {
   const [isShowModalBestPick, setShowModalBestPick] = useState(false);
   //select skin condition
   const [selectedSkinCondition, setSelectedSkinCondition] = useState('Komedo');
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -64,9 +69,9 @@ const FaceAnalysis = () => {
       setAnalysisResult(response.data);
       handleSkinType(response.data);
 
-      await fetchFaceLandmarks(blob);
     } catch (error) {
-      console.error('Face++ API Error:', error);
+      setIsError(true);
+      console.error('API Error:', error);
     } finally {
       setIsLoading(false);
     }
@@ -81,60 +86,6 @@ const FaceAnalysis = () => {
     setShowModalShare(true)
     //
   };
-
-  const fetchFaceLandmarks = async (blob) => {
-    const formData = new FormData();
-    formData.append("api_key", API_KEY);
-    formData.append("api_secret", API_SECRET);
-    formData.append("image_file", blob);
-    formData.append("return_landmark", "face");
-  
-    try {
-      const response = await axios.post(
-        "https://api-us.faceplusplus.com/facepp/v1/face/thousandlandmark",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      
-      if (response.data.face.landmark && response.data.face.landmark.face) {
-        drawLandmarks(response.data.face.landmark.face);
-      }
-    } catch (error) {
-      console.error("Face++ Landmark API Error:", error);
-    }
-  };
-
-  const drawLandmarks = (landmarks) => {
-    const canvas = document.createElement("canvas");
-    const img = new Image();
-    img.src = capturedImage;
-  
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext("2d");
-  
-      ctx.drawImage(img, 0, 0, img.width, img.height);
-  
-      ctx.fillStyle = "pink";
-      ctx.strokeStyle = "blue";
-      ctx.lineWidth = 2;
-  
-      const scaleX = img.width / window.height;
-      const scaleY = img.height / window.innerHeight;
-  
-      Object.values(landmarks).forEach((point) => {
-        const x = point.x * scaleX;
-        const y = point.y * scaleY;
-  
-        ctx.beginPath();
-        ctx.arc(x, y, 3, 0, 2 * Math.PI);
-        ctx.fill();
-      });
-  
-      setCapturedImage(canvas.toDataURL("image/png"));
-    };
-  };  
   
   const handleSkinType = (result) => {
     const skinTypeArr = Object.values(result.result.skin_type.details);
@@ -144,6 +95,33 @@ const FaceAnalysis = () => {
   const handleBack = () => {
     navigate('/wizard?step=2');
   };
+
+  const hasNonZeroValue = (values) => {
+    return values.some(value => value > 0);
+  };
+
+  const renderMaskingIcon = (skinCondition) => (
+    <Box
+      sx={{
+        position: 'absolute',
+        ...skinCondition.top && { top: skinCondition.top },
+        ...skinCondition.bottom && { bottom: skinCondition.bottom },
+        ...skinCondition.left && { left: skinCondition.left },
+        ...skinCondition.right && { right: skinCondition.right },
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
+      <img
+        src={skinCondition.img}
+        alt={skinCondition.name}
+        style={{ width: 100, height: 120, cursor: 'pointer' }}
+        onClick={()=> {
+          setSelectedSkinCondition(skinCondition.name);
+          setShowModalBestPick(true);
+        }}
+      />
+    </Box>
+  )
 
   return (
     <Box
@@ -181,17 +159,47 @@ const FaceAnalysis = () => {
         // Captured Image View
         <Box position='relative' width='100vw' height='100vh'>
           <img src={capturedImage} alt='Captured' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <canvas
-            ref={canvasRef}
-            width="100%"
-            height="100%"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              pointerEvents: "none",
-            }}
-          />
+          {analysisResult ? (
+        <>
+          {hasNonZeroValue([
+            analysisResult.result.pores_jaw.value, 
+            analysisResult.result.pores_forehead.value, 
+            analysisResult.result.pores_left_cheek.value, 
+            analysisResult.result.pores_right_cheek.value
+          ]) && renderMaskingIcon({top: '25%', left: '30%', img: iconKomedo, name: 'Komedo'})}
+          
+          {hasNonZeroValue([
+            analysisResult.result.blackhead.value, 
+            analysisResult.result.dark_circle.value
+          ]) && renderMaskingIcon({top: '35%', right: '-10%', img: iconPori, name: 'Pori'})}
+          
+          {hasNonZeroValue([
+            analysisResult.result.acne.value, 
+            analysisResult.result.skin_spot.value
+          ]) && renderMaskingIcon({top: '35%', left: '25%', img: iconJerawat, name: 'Jerawat'})}
+          
+          {hasNonZeroValue([
+            analysisResult.result.glabella_wrinkle.value, 
+            analysisResult.result.mole.value
+          ]) && renderMaskingIcon({top: '25%', right: '0%', img: iconFlex, name: 'Flek'})}
+        </>
+      ) : <></>}
+
+          {isError && (
+            <Box
+              position='absolute'
+              top='10%'
+              left='50%'
+              sx={{ transform: 'translateX(-50%)', bgcolor: 'white', p: 2, borderRadius: 2, boxShadow: 3 }}
+              width='90%'
+              maxWidth={400}
+            >
+              <Typography variant='h6'>Error:</Typography>
+              <Typography variant='body1'>Something went wrong, please try again later.</Typography>
+            </Box>
+          )}
+
+          {/* Analysis Button */}
           <Box
             position='absolute'
             bottom={30}
