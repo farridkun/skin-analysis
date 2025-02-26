@@ -18,7 +18,9 @@ const productsDummy = [
     discountPrice: "Rp249,000",
     rating: '4.3',
     skinConcern: "Pori",
+    skinConcernEn: "Big Pores",
     skinType: 'Kulit Berminyak',
+    skinTypeEn: 'Oily Skin',
     image: 'https://images.soco.id/81e89bb3-2999-44de-bb1b-980f25e5fa3d-image-0-1733816188297'
     
   },
@@ -30,7 +32,9 @@ const productsDummy = [
     discountPrice: "Rp83,850",
     rating: '4.4',
     skinConcern: "Flek",
+    skinConcernEn: "Blemish",
     skinType: 'Kulit Berminyak',
+    skinTypeEn: 'Oily Skin',
     image: 'https://images.soco.id/81360b91-b5ae-4fdc-a73a-2df598b74659-image-0-1733393412183'
 
 
@@ -43,8 +47,10 @@ const productsDummy = [
     discountPrice: null,
     rating: '5.0',
     skinConcern: "Jerawat",
+    skinConcernEn: "Acne",
     total_review: '10',
     skinType: 'Kulit Berminyak',
+    skinTypeEn: 'Oily Skin',
 image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721639191148'
 
   },
@@ -56,7 +62,9 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     discountPrice: null,
     rating: '5.0',
     skinConcern: "Komedo",
+    skinConcernEn: "Blackhead",
     skinType: 'Kulit Kering',
+    skinTypeEn: 'Dry Skin',
     total_review: '1',
 
     image: 'https://images.soco.id/e3d86af3-f0c2-49b3-9de2-4a816b95c95a-image-0-1720494043085'
@@ -70,7 +78,9 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     discountPrice: "Rp252,850",
     rating:"4.8",
     skinConcern: "Flek",
+    skinConcernEn: "Blemish",
     skinType: 'Kulit Kering',
+    skinTypeEn: 'Dry Skin',
     total_review: '41',
 
     image: 'https://images.soco.id/d72221a4-328c-48a6-a079-f6472c16dc52-image-0-1722253336528'
@@ -85,7 +95,9 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     discountPrice: null,
     rating: '4.7',
     skinConcern: "Pori",
+    skinConcernEn: "Big Pores",
     skinType: 'Kulit Kering',
+    skinTypeEn: 'Dry Skin',
     total_review: '5',
 
     image: 'https://images.soco.id/0c0a9958-68ab-4444-b844-d79d35fea9f0-image-0-1737347341351'
@@ -100,7 +112,9 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     discountPrice: null,
     rating: '4.9',
     skinConcern: "Pori",
+    skinConcernEn: "Big Pores",
     skinType: 'Kulit Normal',
+    skinTypeEn: 'Normal Skin',
     total_review: '8',
     image: 'https://images.soco.id/3c54d432-1220-47d0-a16e-30969a459c32-image-0-1734074110464'
 
@@ -114,7 +128,9 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     discountPrice: "Rp120,900",
     rating: '5.0',
     skinConcern: "Flek",
+    skinConcernEn: "Blemish",
     skinType: 'Kulit Normal',
+    skinTypeEn: 'Normal Skin',
     total_review: '88',
 
     image: 'https://images.soco.id/7d478d5e-453f-457e-bd19-b71dd6d14604-image-0-1731987863998'
@@ -128,7 +144,9 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     discountPrice: "Rp104,650",
     rating: '4.3',
     skinConcern: "Komedo",
+    skinConcernEn: "Blackhead",
     skinType: 'Kulit Normal',
+    skinTypeEn: 'Normal Skin',
     total_review: '3',
     
     image: 'https://images.soco.id/ea25e8bb-f562-44fc-bd0f-fdb1cafc100e-image-0-1727842989542'
@@ -145,7 +163,9 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     discountPrice: null,
     rating: '4.6',
     skinConcern: "Pori",
+    skinConcernEn: "Big Pores",
     skinType: 'Kulit Kombinasi',
+    skinTypeEn: 'Combination Skin',
     total_review: '7',
     image: 'https://images.soco.id/86495363-cfa7-4229-93fd-93a4ee2ef9b7-image-0-1737347310768'
 
@@ -158,7 +178,9 @@ image: 'https://images.soco.id/723bda2e-f6ff-4d33-9dac-f6f90b90dbbb-image-0-1721
     discountPrice: "Rp204,000",
     rating: '4.3',
     skinConcern: "Jerawat",
+    skinConcernEn: "Acne",
     skinType: 'Kulit Kombinasi',
+    skinTypeEn: 'Combination Skin',
     total_review: '2',
     image: 'https://images.soco.id/745e2553-bfb7-415b-a905-9e479436a009-image-0-1734407308431',
 
@@ -174,7 +196,7 @@ const BestPicksModal = ({ open, onClose, skinCondition }) => {
   };
 
   const filterBySkinType = (skinType) => {
-    return productsDummy.filter(product => product.skinConcern === skinCondition);
+    return productsDummy.filter(product => product.skinConcernEn === skinCondition);
   };
 
   const [selectedItems, setSelectedItems] = useState('');

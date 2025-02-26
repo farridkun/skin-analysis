@@ -213,16 +213,16 @@ const FaceAnalysis = () => {
                 analysisResult.result.pores_forehead.value,
                 analysisResult.result.pores_left_cheek.value,
                 analysisResult.result.pores_right_cheek.value,
-              ]) && renderMaskingIcon({ top: '25%', left: '30%', img: iconKomedo, name: 'Pori' })}
+              ]) && renderMaskingIcon({ top: '25%', left: '30%', img: iconPori, name: 'Big Pores' })}
 
               {hasNonZeroValue([analysisResult.result.blackhead.value, analysisResult.result.dark_circle.value]) &&
-                renderMaskingIcon({ top: '35%', right: '-10%', img: iconPori, name: 'Komedo' })}
+                renderMaskingIcon({ top: '35%', right: '-10%', img: iconKomedo, name: 'Blackhead' })}
 
               {hasNonZeroValue([analysisResult.result.acne.value, analysisResult.result.skin_spot.value]) &&
-                renderMaskingIcon({ top: '35%', left: '25%', img: iconJerawat, name: 'Jerawat' })}
+                renderMaskingIcon({ top: '35%', left: '25%', img: iconJerawat, name: 'Acne' })}
 
               {hasNonZeroValue([analysisResult.result.glabella_wrinkle.value, analysisResult.result.mole.value]) &&
-                renderMaskingIcon({ top: '25%', right: '0%', img: iconFlex, name: 'Flek' })}
+                renderMaskingIcon({ top: '25%', right: '0%', img: iconFlex, name: 'Blemish' })}
             </>
           ) : (
             <></>
