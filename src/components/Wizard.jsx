@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { AppBar, Toolbar, IconButton, Typography, Box, Button, Stack, CircularProgress, Backdrop } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Typography, Box, Button, Stack, CircularProgress, Backdrop } from '@mui/material';
 import logo from '../assets/logo.jpeg';
 import NoticeConsent from './NoticeConsent';
+import Header from './Header';
 
 const SELFIE_INSTRUCTIONS = [
   'Remove makeup and take off glasses/mask.',
@@ -69,36 +69,7 @@ const Wizard = () => {
   };
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <AppBar
-        position='fixed'
-        color='default'
-        elevation={0}
-        sx={{
-          backgroundColor: 'white',
-          borderBottom: 'none',
-          '& .MuiToolbar-root': {
-            borderBottom: 'none',
-          },
-        }}
-      >
-        <Toolbar>
-          <IconButton edge='start' onClick={handleBack} aria-label='back'>
-            <ArrowBackIcon />
-          </IconButton>
-          <Typography
-            variant='h6'
-            component='h1'
-            sx={{
-              flexGrow: 1,
-              textAlign: 'center',
-              marginRight: '48px',
-            }}
-          >
-            Skin Analyzer
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Toolbar />
+      <Header handleBack={handleBack} />
 
       <Backdrop
         open={isLoading}
