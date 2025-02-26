@@ -8,12 +8,15 @@ import Header from './Header';
 const API_KEY = import.meta.env.VITE_FACEPP_API_KEY;
 const API_SECRET = import.meta.env.VITE_FACEPP_API_SECRET;
 
+const SKIN_TYPE_MAP = ['Kulit Berminyak', 'Kulit Kering', 'Kulit Normal', 'Kulit Kombinasi'];
+
 const FaceAnalysis = () => {
   const navigate = useNavigate();
   const webcamRef = useRef(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [skinType, setSkinType] = useState(null);
 
   const captureImage = () => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -23,6 +26,7 @@ const FaceAnalysis = () => {
   const retakeImage = () => {
     setCapturedImage(null);
     setAnalysisResult(null);
+    setSkinType(null);
   };
 
   const analyzeImage = async () => {
@@ -38,6 +42,9 @@ const FaceAnalysis = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setAnalysisResult(response.data);
+      console.log('🚀🚀🚀 ~ response.data:', response.data);
+
+      handleSkinType(response.data);
     } catch (error) {
       console.error('Face++ API Error:', error);
     } finally {
@@ -45,6 +52,19 @@ const FaceAnalysis = () => {
     }
   };
 
+  const showSummary = () => {
+    //
+  };
+
+  const shareImage = async () => {
+    //
+  };
+
+  const handleSkinType = (result) => {
+    const skinTypeArr = Object.values(result.result.skin_type.details);
+    const max = skinTypeArr.reduce((prev, current) => (prev && prev.confidence > current.confidence ? prev : current));
+    setSkinType(SKIN_TYPE_MAP[max.value]);
+  };
   const handleBack = () => {
     navigate('/wizard?step=2');
   };
@@ -87,30 +107,65 @@ const FaceAnalysis = () => {
         // Captured Image View
         <Box position='relative' width='100vw' height='100vh'>
           <img src={capturedImage} alt='Captured' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <Box position='absolute' bottom={30} width='100%' display='flex' justifyContent='center' gap={2}>
-            <Button
-              variant='outlined'
-              color='error'
-              size='large'
-              onClick={retakeImage}
-              sx={{ backgroundColor: '#FFF' }}
-            >
-              Retake Selfie
-            </Button>
-            <Button
-              variant='contained'
-              size='large'
-              onClick={analyzeImage}
-              disabled={isLoading}
-              sx={{ backgroundColor: '#FF73A5' }}
-            >
-              {isLoading ? <CircularProgress size={24} color='inherit' /> : 'Analyze'}
-            </Button>
+          <Box
+            position='absolute'
+            bottom={30}
+            width='100%'
+            display='flex'
+            alignItems='center'
+            gap={5}
+            flexDirection='column'
+          >
+            {skinType && (
+              <Box display='flex' gap={1} flexDirection='column' alignItems='center'>
+                <Typography
+                  variant='h6'
+                  sx={{
+                    color: '#FF73A5',
+                    textShadow: '1px 1px 0 #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF',
+                    letterSpacing: '0.1em',
+                  }}
+                >
+                  Skin Type:
+                </Typography>
+                <Typography
+                  variant='h4'
+                  sx={{
+                    color: '#FF73A5',
+                    textShadow: '1px 1px 0 #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF',
+                    fontWeight: 'bold',
+                    letterSpacing: '0.01em',
+                  }}
+                >
+                  {skinType}
+                </Typography>
+              </Box>
+            )}
+            <Box display='flex' gap={2}>
+              <Button
+                variant='outlined'
+                color='error'
+                size='large'
+                onClick={analysisResult ? showSummary : retakeImage}
+                sx={{ backgroundColor: '#FFF' }}
+              >
+                {analysisResult ? 'Summary' : 'Retake Selfie'}
+              </Button>
+              <Button
+                variant='contained'
+                size='large'
+                onClick={analysisResult ? shareImage : analyzeImage}
+                disabled={isLoading}
+                sx={{ backgroundColor: '#FF73A5' }}
+              >
+                {isLoading ? <CircularProgress size={24} color='inherit' /> : analysisResult ? 'Share' : 'Analyze'}
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}
 
-      {analysisResult && (
+      {/* {analysisResult && (
         <Box
           position='absolute'
           top='10%'
@@ -124,7 +179,7 @@ const FaceAnalysis = () => {
             {JSON.stringify(analysisResult, null, 2)}
           </pre>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };
