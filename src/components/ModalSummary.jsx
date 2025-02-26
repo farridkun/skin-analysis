@@ -78,6 +78,13 @@ const TagButtons = ({ skinConditions, skinType }) => {
 };
 
 const Summary = ({ open, onClose, skinConditions, skinType }) => {
+  const skinConditionName = skinConditions.map(condition => condition.label)
+    .reduce((acc, curr, index, array) => {
+      if (index === 0) return curr;
+      if (index === array.length - 1) return `${acc} and ${curr}`;
+      return `${acc}, ${curr}`;
+    }, '');
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -103,14 +110,8 @@ const Summary = ({ open, onClose, skinConditions, skinType }) => {
         </Box>
         <TagButtons skinConditions={skinConditions} skinType={skinType} />
         <Typography variant='body2' sx={{ mt: 1, mb: 2, fontSize: 14 }}>
-          {skinType.desc}
+          Based on the results of the facial analysis, your skin condition shows a tendency towards {skinType.label} also {skinConditionName}. Based treatment or basic care is focused on cleaning, moisturizing, protecting, and caring for the skin to keep it healthy and overcome problems that arise. Recommended treatments include regular cleansing, exfoliation as needed, moisturizing to maintain skin balance, and using sunscreen to protect the skin from UV damage. Choosing the right product with active ingredients that suit your skin condition will help improve and maintain optimal skin health.
         </Typography>
-
-        {skinConditions.map((condition, index) => (
-          <Typography variant='body2' sx={{ mt: 1, mb: 2, fontSize: 14 }} key={index}>
-            {condition.desc}
-          </Typography>
-        ))}
       </Box>
     </Modal>
   );
